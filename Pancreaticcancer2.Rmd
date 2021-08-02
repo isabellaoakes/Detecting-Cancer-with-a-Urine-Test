@@ -1,0 +1,359 @@
+---
+title: "Pancreatic Cancer project"
+author: "Isabella Oakes"
+date: "6/15/2021"
+output:
+  pdf_document: default
+  html_document: default
+  word_document: default
+---
+
+```{r}
+pancreatic <- read.csv('C:/Users/Ladybug/Desktop/pancreatic.csv', header = TRUE)
+```
+
+```{r}
+summary(pancreatic)
+```
+
+```{r}
+head(pancreatic)
+```
+
+```{r}
+library(dplyr)
+library(ggplot2)
+pancreaticdata <- as.data.frame(pancreatic)
+pancreaticdata$diagnosis <- as.factor(pancreaticdata$diagnosis)
+levels(pancreaticdata$diagnosis) <- c("No pancreatic disease", "Benign hepatobiliary disease", "Pancreatic cancer")
+qplot(patient_cohort, data = pancreaticdata, geom = "bar", fill = diagnosis) + 
+  scale_fill_manual(values = c("#257272", "#efc234", "#af8db2"), name = "Diagnosis") +
+  labs(title = "Patient Cohort Distribution", x = "Patient cohort", y = "Count") 
+pancreaticdata %>% count(patient_cohort)
+```
+
+
+```{r}
+qplot(sample_origin, data = pancreaticdata, geom = "bar", fill = diagnosis) + 
+  scale_fill_manual(values = c("#257272", "#efc234", "#af8db2"), name = "Diagnosis") +
+  labs(title = "Sample Origin Distribution", x = "Sample Origin", y = "Count") 
+pancreaticdata %>% count(sample_origin)
+```
+
+```{r}
+qplot(age, data = pancreaticdata, geom = "bar", fill = diagnosis) + 
+  scale_fill_manual(values = c("#257272", "#efc234", "#af8db2"), name = "Diagnosis") +
+  labs(title = "Age Distribution", x = "Age", y = "Count") 
+```
+
+```{r}
+qplot(sex, data = pancreaticdata, geom = "bar", fill = diagnosis) + 
+  scale_fill_manual(values = c("#257272", "#efc234", "#af8db2"), name = "Diagnosis") +
+  labs(title = "Sex Distribution", x = "Sex", y = "Count") 
+pancreaticdata %>% count(sex)
+```
+
+```{r}
+qplot(diagnosis, data = pancreaticdata, geom = "bar", fill = diagnosis) + 
+  scale_fill_manual(values = c("#257272", "#efc234", "#af8db2"), name = "Diagnosis") +
+  labs(title = "Diagnosis Distribution", x = "Diagnosis", y = "Count") +
+  theme(axis.text.x = element_text(angle=45, vjust=1, hjust=1))
+pancreaticdata %>% count(diagnosis)
+```
+
+```{r}
+panstage <- pancreaticdata[pancreaticdata$diagnosis == "Pancreatic cancer", ]
+qplot(stage, data = panstage, geom = "bar", fill = diagnosis) + 
+  scale_fill_manual(values = c("#af8db2"), name = "Diagnosis") +
+  labs(title = "Stage Distribution", x = "Stage", y = "Count") 
+pancreaticdata %>% count(diagnosis)
+```
+
+```{r}
+benign <- pancreaticdata[pancreaticdata$diagnosis == "Benign hepatobiliary disease", ]
+qplot(benign_sample_diagnosis, data = benign, geom = "bar", fill = diagnosis) + 
+  scale_fill_manual(values = c("#efc234"), name = "Diagnosis") +
+  labs(title = "Benign Sample Diagnosis Distribution", x = "Benign Sample Diagnosis", y = "Count") 
+benign %>% count(benign_sample_diagnosis)
+```
+
+```{r}
+library(OneR)
+plasma <- bin(pancreaticdata, nbins = 10, labels = NULL, method = c("length"), na.omit = TRUE)
+qplot(plasma_CA19_9, data = plasma, geom = "bar", fill = diagnosis) + 
+  scale_fill_manual(values = c("#257272", "#efc234", "#af8db2"), name = "Diagnosis") +
+  labs(title = "Plasma CA19-9 Distribution", x = "Plasma CA19-9", y = "Count")
+plasma %>% count(plasma_CA19_9)
+```
+
+```{r}
+creatinine <- bin(pancreaticdata, nbins = 10, labels = NULL, method = c("length"), na.omit = TRUE)
+qplot(creatinine, data = creatinine, geom = "bar", fill = diagnosis) + 
+  scale_fill_manual(values = c("#257272", "#efc234", "#af8db2"), name = "Diagnosis") +
+  labs(title = "Creatinine Distribution", x = "Creatinine", y = "Count") 
+```
+
+```{r}
+LYVE1 <- bin(pancreaticdata, nbins = 15, labels = NULL, method = c("length"), na.omit = TRUE)
+qplot(LYVE1, data = LYVE1, geom = "bar", fill = diagnosis) + 
+  scale_fill_manual(values = c("#257272", "#efc234", "#af8db2"), name = "Diagnosis") +
+  labs(title = "LYVE1 Distribution", x = "LYVE1", y = "Count") +
+  theme(axis.text.x = element_text(angle=45, vjust=1, hjust=1))
+```
+
+```{r}
+REG1B <- bin(pancreaticdata, nbins = 15, labels = NULL, method = c("length"), na.omit = TRUE)
+qplot(REG1B, data = REG1B, geom = "bar", fill = diagnosis) + 
+  scale_fill_manual(values = c("#257272", "#efc234", "#af8db2"), name = "Diagnosis") +
+  labs(title = "REG1B Distribution", x = "REG1B", y = "Count") +
+  theme(axis.text.x = element_text(angle=45, vjust=1, hjust=1))
+```
+
+```{r}
+TFF1 <- bin(pancreaticdata, nbins = 15, labels = NULL, method = c("length"), na.omit = TRUE)
+qplot(TFF1, data = TFF1, geom = "bar", fill = diagnosis) + 
+  scale_fill_manual(values = c("#257272", "#efc234", "#af8db2"), name = "Diagnosis") +
+  labs(title = "TFF1 Distribution", x = "TFF1", y = "Count") +
+  theme(axis.text.x = element_text(angle=45, vjust=1, hjust=1))
+```
+
+
+```{r}
+REG1A <- bin(pancreaticdata, nbins = 15, labels = NULL, method = c("length"), na.omit = TRUE)
+qplot(REG1A, data = REG1A, geom = "bar", fill = diagnosis) + 
+  scale_fill_manual(values = c("#257272", "#efc234", "#af8db2"), name = "Diagnosis") +
+  labs(title = "REG1A Distribution", x = "REG1A Origin", y = "Count") +
+  theme(axis.text.x = element_text(angle=45, vjust=1, hjust=1))
+```
+
+```{r}
+library(corrplot)
+pancreatic2 <- pancreatic
+pancreatic2$sex <- as.factor(pancreatic2$sex)
+pancreatic2$sex <- as.numeric(pancreatic2$sex)
+corrpan <- pancreatic2[c(4:6, 9:14)]
+corrpan[is.na(corrpan)] <- 0
+cor(corrpan)
+
+```
+
+
+Data cleaning - missing values, degenerate distributions, highly correlated features
+
+
+```{r}
+library(DataExplorer)
+#First handle missing values - first view the distribution of missing values
+plot_missing(pancreatic)
+```
+
+Only missing values in two variables - plasma_CA19_9 and REG1A
+REG1A - Urinary levels of a protein that may be associated with pancreas regeneration. Only assessed in 306 patients (one goal of the study was to assess REG1B vs REG1A) - this is why 48.14% of this variable is missing
+plasma_CA19_9 - Blood plasma levels of CA 19–9 monoclonal antibody that is often elevated in patients with pancreatic cancer. Only assessed in 350 patients (one goal of the study was to compare various CA 19-9 cutpoints from a blood sample to the model developed using urinary samples). - again, missing because only assessed in a certain number of patients
+
+```{r}
+library(mice)
+#Use MICE to impute missing values for both variables
+tempDat <- mice(pancreatic, m = 5, maxit = 50, method = "pmm", seed = 27, printFlag = FALSE)
+pancreatic_complete <- complete(tempDat, 2)
+#Compare means of original variables and imputed variables using t-test
+t.test(pancreatic$REG1A, pancreatic_complete$REG1A)
+t.test(pancreatic$plasma_CA19_9, pancreatic_complete$plasma_CA19_9)
+#Compare spread using standard deviation
+c("Missing REG1A" = sd(pancreatic$REG1A, na.rm = TRUE), "No Missing REG1A" = sd(pancreatic_complete$REG1A))
+c("Missing Plasma" = sd(pancreatic$plasma_CA19_9, na.rm = TRUE), "No Missing Plasma" = sd(pancreatic_complete$plasma_CA19_9))
+```
+
+Check if there are any missing values still
+```{r}
+#Check for missing values
+sum(is.na(pancreatic_complete))
+```
+
+See if there are any degenerate features or highly correlated features
+```{r}
+library(caret)
+#Check for near zero variance features
+nearZeroVar(pancreatic_complete)
+#Check for highly correlated features
+findLinearCombos(pancreatic_complete[,c(4,9:14)])
+```
+
+Data preparation and splitting
+```{r}
+#Change the response variable diagnosis from three classes to two - pancreatic cancer (Yes) or no pancreatic cancer (No)
+pancreatic_complete <- pancreatic_complete %>% 
+  mutate(diagnosis = ifelse(diagnosis == 1 | diagnosis == 2, "No", "Yes"))
+
+#Split the data into a train and a test set
+samples <- createDataPartition(pancreatic_complete$diagnosis, p = 0.7, list = FALSE)[,1]
+train <- pancreatic_complete[samples,]
+test <- pancreatic_complete[-samples,]
+
+#Ensure that the train and test have the same distribution for the response variable
+sum(train$diagnosis == "Yes")/nrow(train)
+sum(test$diagnosis == "Yes")/nrow(test)
+
+#Set control parameters
+ctrl <- trainControl(summaryFunction = twoClassSummary,
+                     method = "cv")
+```
+
+```{r}
+trainx <- train[c(-1, -6, -7, -8)]
+trainy <- train[c(6)]
+trainy <- as.matrix(trainy)
+trainy <- as.factor(trainy)
+ctrl2<- trainControl(summaryFunction = twoClassSummary,
+                     method = "cv", classProbs = TRUE)
+```
+
+Random Forest Model
+
+```{r}
+set.seed(100)
+RFmodel <- train(x = trainx, y = trainy,
+                 method = "rf",
+                 metric = "ROC",
+                 trControl = ctrl2)
+RFmodel
+```
+
+Random Forest Statistics 
+
+```{r}
+RFpred <- predict(RFmodel, newdata = test)
+test$diagnosis <- as.factor(test$diagnosis)
+confusionMatrix(RFpred, test$diagnosis)
+
+```
+
+```{r}
+library(caret)
+caret::varImp(RFmodel, scale = FALSE)
+```
+
+Naive Bayes model
+
+```{r}
+library(klaR)
+library(MASS)
+set.seed(100)
+suppressWarnings({NBmodel <- train(x = trainx, y = trainy,
+                 method = "nb",
+                 metric = "ROC",
+                 trControl = ctrl2)})
+NBmodel
+```
+
+```{r}
+suppressWarnings({NBpred <- predict(NBmodel, newdata = test)})
+confusionMatrix(NBpred, test$diagnosis)
+
+```
+Nnet Model 1
+
+```{r}
+library(nnet)
+
+set.seed(800)
+nnetMod<- nnet(diagnosis~ age + creatinine + LYVE1, data = train, size = 3, decay = .1 )
+nnetMod
+
+pred<- predict(nnetMod, newdata= test, type="class")
+
+cm1<- table(test$diagnosis, pred)
+No_Accuracy<-(89/106)*100
+No_Accuracy
+
+confusionMatrix(cm1)
+
+Model_Accuracy<- ((89+42)/(89+17+42+28))*100
+Model_Accuracy
+```
+
+NNet Model
+
+```{r}
+library(nnet)
+
+set.seed(800)
+
+
+nnetgrid <- expand.grid(.size = 1:10,
+                        .decay = c(0, .1, 1, 2))
+maxsize <- max(nnetgrid$.size)
+numwts <- 1*(maxsize * (length(train) +1) + maxsize + 1)
+nnetmodel <- train(x = trainx, y = trainy,
+                   method = "nnet",
+                   metric = "ROC",
+                   tuneGrid = nnetgrid,
+                   trace = FALSE,
+                   maxit = 200,
+                   MaxNWts = numwts,
+                   trControl = ctrl2)
+nnetmodel
+
+nnetpred<- predict(nnetmodel, newdata= test)
+confusionMatrix(nnetpred, test$diagnosis)
+```
+
+
+```{r}
+set.seed(800)
+rpartfit<- train(x = trainx, y = trainy,
+                 method = "rpart2",
+                tuneLength = 10,
+                trControl = ctrl2)
+rpartfit
+```
+
+```{r}
+test$diagnosis <- as.factor(test$diagnosis)
+rpartpred <- predict(rpartfit, newdata = test)
+confusionMatrix(rpartpred, test$diagnosis)
+```
+
+```{r}
+predictions <- subset(test, select = c(6))
+RFpreds <- predict(RFmodel, test, type = "prob")
+predictions$RFprob <- RFpreds[,"No"]
+predictions$RFclass <- predict(RFmodel, test)
+```
+
+```{r}
+suppressWarnings({NBpreds <- predict(NBmodel, test, type = "prob")})
+suppressWarnings({predictions$NBprob <- NBpreds[,"No"]})
+suppressWarnings({predictions$NBclass <- predict(NBmodel, test)})
+```
+
+```{r}
+nnetpreds <- predict(nnetmodel, test, type = "prob")
+predictions$nnetprob <- nnetpreds[,"No"]
+predictions$nnetclass <- predict(nnetmodel, test)
+```
+
+```{r}
+rpartpreds <- predict(rpartfit, test, type = "prob")
+predictions$rpartprob <- rpartpreds[,"No"]
+predictions$rpartclass <- predict(rpartfit, test)
+```
+
+```{r}
+predictions$diagnosis <- as.factor(predictions$diagnosis)
+labs <- c(RFprob = "Random Forest",
+          NBprob = "Naive Bayes",
+          rpartprob = "Single Tree",
+          nnetprob = "Neural Network")
+liftCurve <- lift(diagnosis ~ RFprob + NBprob + rpartprob + nnetprob, data = predictions, labels = labs)
+xyplot(liftCurve, auto.key = list(columns = 2, lines = TRUE, points = FALSE))
+```
+
+
+
+
+
+
+
+
+
