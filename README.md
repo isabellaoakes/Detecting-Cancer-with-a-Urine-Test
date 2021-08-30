@@ -23,6 +23,8 @@ Our objective is to use data collected by Silvana Debernardi and colleagues to c
 ## Project Description
 Using four urinary biomarkers as well as age, sex, plasma CA19 level, and creatinine level we generated six models: Random Forest, Naive Bayes, SVM, Neural Network, XGBoost, and a penalized logistic model. The random forest model produced the highest metric levels and an R Shiny app was created using this model to predict cancer diagnosis by inputting values for each variable. 
 
+## ROC Curve of Models
+![image](https://user-images.githubusercontent.com/74040889/131298610-a3af2426-81fb-49df-835d-305f67051bb1.png)
 
 ## Presentations and projects
 * [Project write-up](https://github.com/isabellaoakes/Detecting-Cancer-with-a-Urine-Test/blob/main/Final%20Project%20Report%20-%20Team%205.pdf)
